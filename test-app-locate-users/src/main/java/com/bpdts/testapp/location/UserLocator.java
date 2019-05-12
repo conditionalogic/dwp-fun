@@ -5,6 +5,7 @@ import com.bpdts.testapp.api.retrofit.UserServiceRetrofitRestClient;
 import com.bpdts.testapp.client.model.retrofit.UserData;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserLocator
 {
@@ -29,12 +30,10 @@ public class UserLocator
     public Set<UserData> listUsersByDistance( Location location, double radius, int distance ) throws UserServiceException {
         Set<UserData> results = new HashSet<>();
         results.addAll( client.getUserDataByCity( "London" ) );
-        for( UserData userData : client.getAllUserData() ) {
-            GreatCircleDistance gcd = new GreatCircleDistance( Location.from( userData ),  location );
-            if( gcd.computeInMiles() <= distance + radius ) {
-                results.add( userData );
-            }
-        }
+        Set<UserData> moreData = client.getAllUserData().stream()
+            .filter( u -> new GreatCircleDistance( Location.from( u ), location ).computeInMiles() <= distance + radius )
+            .collect( Collectors.toSet() );
+        results.addAll( moreData );
         return results;
     }
 
