@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bpdts</groupId>
+	<artifactId>test-app-aggregator</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+	</parent>
+	
+	<modules>
+    <module>test-app-retrofit-client</module>
+    <module>test-app-retrofit-api</module>
+    <module>test-app-spring-client</module>
+    <module>test-app-spring-api</module>
+    <module>test-app-locate-users</module>
+	</modules>	
+  
+  <properties>
+    <retrofit.version>2.5.0</retrofit.version>
+  </properties>
+
+	<dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>1.5.22</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.squareup.retrofit2</groupId>
+        <artifactId>retrofit</artifactId>
+        <version>${retrofit.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.squareup.retrofit2</groupId>
+        <artifactId>converter-gson</artifactId>
+        <version>${retrofit.version}</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.squareup.retrofit2</groupId>
+        <artifactId>converter-scalars</artifactId>
+        <version>${retrofit.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>logging-interceptor</artifactId>
+        <version>3.14.1</version>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.apache.oltu.oauth2</groupId>
+          <artifactId>org.apache.oltu.oauth2.client</artifactId>
+          <version>1.0.1</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.apache.oltu.oauth2</groupId>
+                  <artifactId>common</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
+      <dependency>
+          <groupId>org.mock-server</groupId>
+          <artifactId>mockserver-netty</artifactId>
+          <version>5.5.4</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.mock-server</groupId>
+          <artifactId>mockserver-client-java</artifactId>
+          <version>5.5.4</version>
+      </dependency>
+           
+    </dependencies>
+	</dependencyManagement>
+
+</project>

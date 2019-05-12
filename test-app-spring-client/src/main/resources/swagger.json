@@ -1,0 +1,193 @@
+{
+	"swagger": "2.0",
+    "host": "bpdts-test-app.herokuapp.com",
+	"basePath": "/",
+	"definitions": {
+        "Instructions" : {
+          "type": "object",
+          "properties": {
+            "todo": {
+              "type": "string",
+              "description": "The instructions"
+            }
+          }
+        },
+        "NonExistentUser": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "The error message"
+            }
+          }
+        },
+		"UserData": {
+			"type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The User ID"
+              },
+              "first_name": {
+                "type": "string",
+                "description": "The first name"
+              },
+              "last_name": {
+                "type": "string",
+                "description": "The last name"
+              },
+              "email": {
+                "type": "string",
+                "description": "The email address"
+              },
+              "ip_address": {
+                "type": "string",
+                "description": "IP Address"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double",
+                "description": "The latitude"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double",
+                "description": "The longitude"
+              }
+            }
+		},
+        "UserDataList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserData"
+          }
+        },
+        "User": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UserData"
+            },
+            {
+              "properties": {
+                "city": {
+                  "type": "string",
+                  "description": "The city"
+                }
+              }
+            }
+          ]
+        }
+	},
+	"paths": {
+		"/city/{city}/users": {
+			"parameters": [
+				{
+					"name": "city",
+					"in": "path",
+					"required": true,
+					"type": "string"
+				}
+			],
+			"get": {
+				"responses": {
+					"200": {
+						"description": "Success",
+						"schema": {
+                          "$ref": "#/definitions/UserDataList"
+                        }
+					}
+				},
+				"operationId": "list_users_by_city",
+				"tags": [
+					"users"
+				]
+			}
+		},
+		"/instructions": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "Success",
+                        "schema": {
+                          "$ref": "#/definitions/Instructions"
+                        }
+					}
+				},
+				"operationId": "get_instructions",
+				"tags": [
+					"users"
+				]
+			}
+		},
+		"/user/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"type": "string"
+				}
+			],
+			"get": {
+				"responses": {
+					"404": {
+						"description": "Not Found",
+                        "schema": {
+                          "$ref": "#/definitions/NonExistentUser"
+                        }
+					},
+					"200": {
+						"description": "Success",
+                        "schema": {
+                          "$ref": "#/definitions/User"
+                        }
+					}
+				},
+				"operationId": "get_user",
+				"tags": [
+					"users"
+				]
+			}
+		},
+		"/users": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "Success",
+                        "schema": {
+                          "$ref": "#/definitions/UserDataList"
+                        }
+					}
+				},
+				"operationId": "list_all_users",
+				"tags": [
+					"users"
+				]
+			}
+		}
+	},
+	"info": {
+		"title": "API",
+		"version": "1.0"
+	},
+	"produces": [
+		"application/json"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"tags": [
+		{
+			"name": "default",
+			"description": "Default namespace"
+		}
+	],
+	"responses": {
+		"ParseError": {
+			"description": "When a mask can't be parsed"
+		},
+		"MaskError": {
+			"description": "When any error occurs on mask"
+		}
+	}
+}
