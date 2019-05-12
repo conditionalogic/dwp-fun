@@ -59,7 +59,6 @@ public class UserLocator
         }
         UserLocator userLocator = new UserLocator( uri );
         Collection<UserData> userData = userLocator.listUsersByDistance( locationByCity.get( city ), radiusByCity.get( city ), distance );
-        System.out.println( userData );
-        System.out.println( userData.size() );
+        System.out.println( userData.stream().map( u -> u.getFirstName() + " " + u.getLastName() ).collect( Collectors.toList() ) );
     }
 }
